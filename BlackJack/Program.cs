@@ -19,13 +19,11 @@ namespace BlackJack
         {
             
             // testing proof of concept
-            Console.WriteLine("Hello");
-            var card1 = new Card(Suit.Hearts, Rank.King);  
-            Console.WriteLine(card1);
+            //var card1 = new Card(Suit.Hearts, Rank.King);  
+            //Console.WriteLine(card1);
 
             // build deck
             var deck = new List<Card>();
-
             foreach (Rank r in Enum.GetValues(typeof(Rank)))
             {
                 foreach (Suit s in Enum.GetValues(typeof(Suit)))
@@ -33,27 +31,53 @@ namespace BlackJack
                     deck.Add(new Card(s, r));
                 }
             }
-
             // shuffle deck
             //sort the deck. NOTICE that the variable 'deck' is unchanged, but 'randomDeck' is the actual sorted deck.
             var randomDeck = deck.OrderBy(x => Guid.NewGuid()).ToList();
 
-            // creating List called userHand
+            // creating List called userHand for card verbiage and List for value
             var userHand = new List<Card>();
+            var userValue = new List<int>();
 
-            Console.WriteLine("The deck is shuffled");
-            Console.WriteLine("-------------");
+            var dealerHand = new List<Card>();
+            var dealerValue = new List<int>();
+
+            // Greeting
+            Console.WriteLine("*****************************************************");
+            Console.WriteLine("       Would you like to play a game of BlackJack?");
+            Console.WriteLine("       ");
+            Console.WriteLine("       Answer y for YES, and n for NO.");
+            var startGame = Console.ReadLine();
+            if (startGame == "y")
+            {
+                Console.WriteLine("Yes is a great answer.");
+                Console.Clear();
+            }
+            Console.WriteLine($"       You have chosen NOT to play... {startGame}");
+            Console.WriteLine("       Press the spacebar for good luck...");
+            Console.ReadKey ();
+
+
+
+            Console.WriteLine("       You have shuffled the deck.");
+            Console.WriteLine("       -------------");
             // Game starts here
-
+            Console.WriteLine("       Press the spacebar to begin this game...");
+            Console.ReadKey();
             // pick first value from the randomDeck
-            
-            Console.WriteLine($"This is a random card: {randomDeck[0]}");
+
+            //Console.WriteLine($"This is a random card: {randomDeck[0]}");
+            //Console.WriteLine($"It is worth {randomDeck[0].GetCardValue()} points.");
 
             // adds first value from randomDeck
+            // first 4 cards of deck will always be dealt, Alternating btw
+
             userHand.Add(randomDeck[0]);
+            userValue.Add(randomDeck[0].GetCardValue());
+            randomDeck.RemoveAt(0);
 
             // deletes top card from randomDeck
-            randomDeck.RemoveAt(0);
+            //randomDeck.RemoveAt(0);
 
             // repeat
             //userHand.Add(randomDeck[0]);
