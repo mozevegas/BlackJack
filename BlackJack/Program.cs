@@ -14,6 +14,12 @@ namespace BlackJack
             randomDeck.RemoveAt(0);
         }
 
+        static void AddBorder()
+        {
+            Console.WriteLine("       ");
+            Console.WriteLine("*****************************************************");
+            Console.WriteLine("       ");
+        }
 
         static void Main(string[] args)
         {
@@ -43,104 +49,159 @@ namespace BlackJack
             var dealerValue = new List<int>();
 
             // Greeting
-            Console.WriteLine("*****************************************************");
+            AddBorder();
             Console.WriteLine("       Would you like to play a game of BlackJack?");
             Console.WriteLine("       ");
             Console.WriteLine("       Answer y for YES, and n for NO.");
             var startGame = Console.ReadLine();
             if (startGame == "y")
             {
-                Console.WriteLine("Yes is a great answer.");
+                Console.WriteLine("       Yes is a great answer.");
+                Console.ReadKey();
                 Console.Clear();
             }
+
+            AddBorder();
+            // testing throughput of response
             Console.WriteLine($"       You have chosen NOT to play... {startGame}");
             Console.WriteLine("       Press the spacebar for good luck...");
             Console.ReadKey ();
-
-
-
+            AddBorder();
             Console.WriteLine("       You have shuffled the deck.");
-            Console.WriteLine("       -------------");
+            AddBorder();
+
             // Game starts here
             Console.WriteLine("       Press the spacebar to begin this game...");
             Console.ReadKey();
+            Console.Clear();
             // pick first value from the randomDeck
 
             //Console.WriteLine($"This is a random card: {randomDeck[0]}");
             //Console.WriteLine($"It is worth {randomDeck[0].GetCardValue()} points.");
 
-            // adds first value from randomDeck
             // first 4 cards of deck will always be dealt, Alternating btw
-
             userHand.Add(randomDeck[0]);
             userValue.Add(randomDeck[0].GetCardValue());
             randomDeck.RemoveAt(0);
-
-            // deletes top card from randomDeck
-            //randomDeck.RemoveAt(0);
-
-            // repeat
-            //userHand.Add(randomDeck[0]);
-            //randomDeck.RemoveAt(0);
-
-            // repeat
+            dealerHand.Add(randomDeck[0]);
+            dealerValue.Add(randomDeck[0].GetCardValue());
+            randomDeck.RemoveAt(0);
             userHand.Add(randomDeck[0]);
+            userValue.Add(randomDeck[0].GetCardValue());
+            randomDeck.RemoveAt(0);
+            dealerHand.Add(randomDeck[0]);
+            dealerValue.Add(randomDeck[0].GetCardValue());
             randomDeck.RemoveAt(0);
 
-
-
-            Console.WriteLine($"This displays First? Card: {userHand[0]}");
-
-
-            // This 
-            Console.WriteLine("This is not a card...");
-            //var tempo = (userHand[2]);
-            Console.WriteLine(userHand[0]);
-
-
-            Console.WriteLine("These cards are in your hand:");
+            AddBorder();
+            Console.WriteLine("       These cards are in your hand:");
             foreach (var cardy in userHand)
             {
-                Console.WriteLine(cardy);
+                Console.WriteLine($"       {cardy}");
             }
-
             //Console.WriteLine(userHand[0].GetCardValue);
-
             //public int GetHandTotal(List<Card> hand)*********************
-            //{
-                var plz = 0;
+
+            var playerPoints = 0;
                 foreach (var nuzz in userHand)
                 {
-                    plz += nuzz.GetCardValue();
+                    playerPoints += nuzz.GetCardValue();
                 }
-                Console.WriteLine($"Total points: {plz} points");
-                Console.WriteLine(" ");
-            //return plz;
+                Console.WriteLine($"       Total points: {playerPoints} points");
+            AddBorder();
+            Console.WriteLine("       Press the spacebar to continue");
+            Console.ReadKey();
+            AddBorder();
+            // TEMPORARY - Return Dealer's Cards all
+            Console.WriteLine("       The dealer shows ONE of his cards:");
+            foreach (var dealcards in dealerHand)
+            {
+                Console.WriteLine($"       {dealcards}");
+            }
+            var dealpoints = 0;
+            foreach(var dealvalue in dealerHand)
+            {
+                dealpoints += dealvalue.GetCardValue();
+            }
+            Console.WriteLine($"       Dealer has {dealpoints}");
+
+            AddBorder();
+            Console.WriteLine("       Would you like to hit? (I hope you don't bust)");
+            Console.WriteLine("       Please enter h for Hit Me.");
+            var hitMe = Console.ReadLine();
+            if (hitMe == "h")
+            {
+                // draw card for player and then delete that card from List
+                // add those values up. if they are over 21, game over
+                // if not ask if player wants another card.
+                Console.WriteLine("       You shall be dealt another card.");
+                Console.ReadKey();
+            }
+            AddBorder();
+            Console.WriteLine("       The dealer will now play...");
+            Console.WriteLine("       (Press the spacebar to see your fate)");
+            Console.ReadKey();
+
+            // Dealer loop to draw card until he goes over 21
+
+            while (dealpoints < 16 )
+            {
+                dealerHand.Add(randomDeck[0]);
+                dealerValue.Add(randomDeck[0].GetCardValue());
+                randomDeck.RemoveAt(0);
+                dealpoints = 0;
+                foreach (var dealvalue in dealerHand)
+                {
+                    dealpoints += dealvalue.GetCardValue();
+                }
+                Console.WriteLine($"       testing value of dealer: {dealpoints}");
+            }
+            //Console.Clear();
+            AddBorder();
+            Console.WriteLine($"       The dealer shows: {dealpoints}");
+            Console.WriteLine($"       You have {playerPoints} points.");
+
+            if (dealpoints > 21)
+            {
+                Console.WriteLine("       The dealer has BUSTED!!");
+                dealpoints = 0;
+            }
+
+            if (playerPoints > dealpoints)
+            {
+                Console.WriteLine("       YOU HAVE WON!!!");
+            }
+            else
+            {
+                Console.WriteLine("       Sorry, you have lost your life savings.. :( ");
+            }
+
+            Console.WriteLine("       Thank you for playing.");
+            AddBorder();
+
+            // figure Value of Dealer Hand
+            //dealpoints = 0;
+            //foreach (var dealvalue in dealerHand)
+            //{
+            //    dealpoints += dealvalue.GetCardValue();
+            //}
+            //Console.WriteLine($"       Dealer has {dealpoints}");
+
+            //if (dealpoints > 21)
+            //{
+            //    Console.WriteLine("       The Dealer has busted.");
+            //}
+            //else if (22 > dealpoints ||  dealpoints >= 16)
+            //{
+            //    Console.WriteLine($"       The Dealer stands at {dealpoints}");
             //}
 
+
+            Console.ReadKey();
+
+
+
             // **************************************************************
-            //this is getting your card hand value  
-
-            List<int> cardValue = new List<int>();
-            foreach (Card cardzz in userHand)
-            {
-                cardValue.Add(cardzz.GetCardValue());
-            }
-            //this will display the value of the cards in the hand.
-            Console.WriteLine(cardValue.Sum(x => Convert.ToInt32(x)));
-
-            //############################################################
-
-            //GetHandTotal(userHand);
-
-            //attempting to get the value of a card
-            // int Card; GetCardValue();
-
-            // var flopo = new Card(rv.10);
-            //Console.WriteLine(flopo);
-
-
-            // create a List to contain all the 
 
             // 2 while loops exist
             // for player, runs while less than 5 cards picked and cardamount is less than 21
