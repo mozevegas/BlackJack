@@ -8,7 +8,7 @@ namespace BlackJack
 {
     class Program
     {
-        static void PickCard (List<Card> userHand, List<Card> randomDeck)
+        static void PickCard(List<Card> userHand, List<Card> randomDeck)
         {
             userHand.Add(randomDeck[0]);
             randomDeck.RemoveAt(0);
@@ -21,9 +21,36 @@ namespace BlackJack
             Console.WriteLine("       ");
         }
 
+        static int GetMyValue(List<Card> userHand)
+        {
+            var valzz = 0;
+            valzz = (userHand[0].GetCardValue());
+            return valzz;
+        }
+
+        static int DealFirstFourCards(List<Card> userHand, List<Card> userValue, List<Card> randomDeck, List<Card> dealerHand, List<Card> dealerValue)
+        {
+            userHand.Add(randomDeck[0]);
+            var numberOne = 0;
+            numberOne = (randomDeck[0].GetCardValue());
+            return numberOne;
+            //userValue.Add(numberOne);
+            //userValue.Add(randomDeck[0].GetCardValue());
+            //randomDeck.RemoveAt(0);
+            //dealerHand.Add(randomDeck[0]);
+            //dealerValue.Add(randomDeck[0].GetCardValue());
+            //randomDeck.RemoveAt(0);
+            //userHand.Add(randomDeck[0]);
+            //userValue.Add(randomDeck[0].GetCardValue());
+            //randomDeck.RemoveAt(0);
+            //dealerHand.Add(randomDeck[0]);
+            //dealerValue.Add(randomDeck[0].GetCardValue());
+            //randomDeck.RemoveAt(0);
+        }
+
         static void Main(string[] args)
         {
-            
+
             // testing proof of concept
             //var card1 = new Card(Suit.Hearts, Rank.King);  
             //Console.WriteLine(card1);
@@ -49,23 +76,25 @@ namespace BlackJack
             var dealerValue = new List<int>();
 
             // Greeting
-            AddBorder();
-            Console.WriteLine("       Would you like to play a game of BlackJack?");
-            Console.WriteLine("       ");
-            Console.WriteLine("       Answer y for YES, and n for NO.");
-            var startGame = Console.ReadLine();
-            if (startGame == "y")
-            {
-                Console.WriteLine("       Yes is a great answer.");
-                Console.ReadKey();
-                Console.Clear();
-            }
+            //AddBorder();
+            //Console.WriteLine("       Would you like to play a game of BlackJack?");
+            //Console.WriteLine("       ");
+            //Console.WriteLine("       Answer y for YES, and n for NO.");
+            //var startGame = Console.ReadLine();
+            //if (startGame == "y")
+            //{
+            //    Console.WriteLine("       Yes is a great answer.");
+            //    Console.ReadKey();
+            //    Console.Clear();
+            //}
 
             AddBorder();
-            // testing throughput of response
-            Console.WriteLine($"       You have chosen NOT to play... {startGame}");
+            AddBorder();
+            Console.WriteLine("       You have chosen to play BlackJack");
             Console.WriteLine("       Press the spacebar for good luck...");
-            Console.ReadKey ();
+            AddBorder();
+            AddBorder();
+            Console.ReadKey();
             AddBorder();
             Console.WriteLine("       You have shuffled the deck.");
             AddBorder();
@@ -93,58 +122,116 @@ namespace BlackJack
             dealerValue.Add(randomDeck[0].GetCardValue());
             randomDeck.RemoveAt(0);
 
+            // Cards are DISPLAYED for Player
+
             AddBorder();
             Console.WriteLine("       These cards are in your hand:");
             foreach (var cardy in userHand)
             {
                 Console.WriteLine($"       {cardy}");
             }
-            //Console.WriteLine(userHand[0].GetCardValue);
-            //public int GetHandTotal(List<Card> hand)*********************
 
+            // Calculates the value of player Points
             var playerPoints = 0;
-                foreach (var nuzz in userHand)
-                {
-                    playerPoints += nuzz.GetCardValue();
-                }
-                Console.WriteLine($"       Total points: {playerPoints} points");
+            foreach (var playerAdd in userHand)
+            {
+                playerPoints += playerAdd.GetCardValue();
+            }
+            Console.WriteLine($"       Total points: {playerPoints} points");
             AddBorder();
             Console.WriteLine("       Press the spacebar to continue");
             Console.ReadKey();
             AddBorder();
+
+
             // TEMPORARY - Return Dealer's Cards all
+
             Console.WriteLine("       The dealer shows ONE of his cards:");
+            Console.WriteLine("");
+
             foreach (var dealcards in dealerHand)
             {
                 Console.WriteLine($"       {dealcards}");
             }
             var dealpoints = 0;
-            foreach(var dealvalue in dealerHand)
+            foreach (var dealvalue in dealerHand)
             {
                 dealpoints += dealvalue.GetCardValue();
             }
             Console.WriteLine($"       Dealer has {dealpoints}");
 
-            AddBorder();
-            Console.WriteLine("       Would you like to hit? (I hope you don't bust)");
-            Console.WriteLine("       Please enter h for Hit Me.");
-            var hitMe = Console.ReadLine();
-            if (hitMe == "h")
+            // Player's Question Loop
+            var playerWhile = "placholder";
+            while (playerWhile == "placholder")
             {
-                // draw card for player and then delete that card from List
-                // add those values up. if they are over 21, game over
-                // if not ask if player wants another card.
-                Console.WriteLine("       You shall be dealt another card.");
-                Console.ReadKey();
+                AddBorder();
+                Console.WriteLine("       Would you like another card (hit)");
+                Console.WriteLine("       or not (stand)? (I hope you don't bust)");
+                Console.WriteLine("       Please enter h for hit OR s for stand.");
+                var hitMe = "answer";
+                hitMe = Console.ReadLine();
+                if (hitMe == "h")
+                {
+                    // draw card for player and then delete that card from List
+                    // add those values up. if they are over 21, game over
+                    // if not ask if player wants another card.
+                    Console.WriteLine("       You shall be dealt another card.");
+                    Console.ReadKey();
+                    Console.Clear();
+                    AddBorder();
+
+                    userHand.Add(randomDeck[0]);
+                    userValue.Add(randomDeck[0].GetCardValue());
+                    randomDeck.RemoveAt(0);
+                    // Step 2
+                    Console.WriteLine("       These cards are NOW in your hand:");
+                    foreach (var cardy in userHand)
+                    {
+                        Console.WriteLine($"       {cardy}");
+                    }
+
+                    // Calculates the value of player Points
+                    playerPoints = 0;
+                    foreach (var playerAdd in userHand)
+                    {
+                        playerPoints += playerAdd.GetCardValue();
+                    }
+                    Console.WriteLine($"       Total points: {playerPoints} points");
+                    if (playerPoints == 21)
+                    {
+                        Console.WriteLine("          That's BlackJack!!!");
+                        playerWhile = "vacateLoop";
+                    }
+                    else if (playerPoints > 21)
+                    {
+                        Console.WriteLine("       Unfortunatey you have Busted.");
+                        playerWhile = "vacateLoop";
+                    }
+                    AddBorder();
+                    Console.WriteLine("       Press the spacebar to continue");
+                    Console.ReadKey();
+                    AddBorder();
+
+                }
+                if (playerPoints >= 22)
+                {
+                    playerPoints = 99;
+                }
+                if (hitMe == "s")
+                {
+                    playerWhile = "vacateLoop";
+                }
+
             }
             AddBorder();
             Console.WriteLine("       The dealer will now play...");
             Console.WriteLine("       (Press the spacebar to see your fate)");
             Console.ReadKey();
+            Console.Clear();
 
             // Dealer loop to draw card until he goes over 21
 
-            while (dealpoints < 16 )
+            while (dealpoints < 16)
             {
                 dealerHand.Add(randomDeck[0]);
                 dealerValue.Add(randomDeck[0].GetCardValue());
@@ -159,6 +246,10 @@ namespace BlackJack
             //Console.Clear();
             AddBorder();
             Console.WriteLine($"       The dealer shows: {dealpoints}");
+            if (playerPoints == 0)
+            {
+                Console.WriteLine("       You BUSTED!!!");
+            }
             Console.WriteLine($"       You have {playerPoints} points.");
 
             if (dealpoints > 21)
@@ -167,15 +258,20 @@ namespace BlackJack
                 dealpoints = 0;
             }
 
+            if (playerPoints == 99)
+            {
+                playerPoints = 0;
+            }
+
             if (playerPoints > dealpoints)
             {
                 Console.WriteLine("       YOU HAVE WON!!!");
             }
-            else
+            else if (playerPoints < dealpoints)
             {
                 Console.WriteLine("       Sorry, you have lost your life savings.. :( ");
             }
-
+            AddBorder();
             Console.WriteLine("       Thank you for playing.");
             AddBorder();
 
